@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t dmytro/react-fibo -f ./client/Dockerfile.dev client
+  - docker build -t pecheriahadm/react-fibo -f ./client/Dockerfile.dev client
 
 script:
   - docker run pecheriahadm/react-fibo npm run build

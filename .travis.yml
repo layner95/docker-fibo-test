@@ -6,17 +6,17 @@ before_install:
   - docker build -t dmytro/react-fibo -f ./client/Dockerfile.dev client
 
 script:
-  - docker run dmytro/react-fibo npm run build
+  - docker run pecheriahadm/react-fibo npm run build
 
 after_success:
-  - docker build -t dmytro/multi-client ./client
-  - docker build -t dmytro/multi-nginx ./nginx
-  - docker build -t dmytro/multi-server ./server
-  - docker build -t dmytro/multi-worker ./worker
+  - docker build -t pecheriahadm/multi-client ./client
+  - docker build -t pecheriahadm/multi-nginx ./nginx
+  - docker build -t pecheriahadm/multi-server ./server
+  - docker build -t pecheriahadm/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_NAME" --password-stdin
   # Take those images and push them to docker hub
-  - docker push dmytro/multi-client
-  - docker push dmytro/multi-nginx
-  - docker push dmytro/multi-server
-  - docker push dmytro/multi-worker
+  - docker push pecheriahadm/multi-client
+  - docker push pecheriahadm/multi-nginx
+  - docker push pecheriahadm/multi-server
+  - docker push pecheriahadm/multi-worker

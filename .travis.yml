@@ -3,20 +3,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev client
+  - docker build -t dmytro/react-fibo -f ./client/Dockerfile.dev client
 
 script:
-  - docker run stephengrider/react-test npm run build
+  - docker run dmytro/react-fibo npm run test -- --coverage
 
 after_success:
-  - docker build -t stephengrider/multi-client ./client
-  - docker build -t stephengrider/multi-nginx ./nginx
-  - docker build -t stephengrider/multi-server ./server
-  - docker build -t stephengrider/multi-worker ./worker
+  - docker build -t dmytro/multi-client ./client
+  - docker build -t dmytro/multi-nginx ./nginx
+  - docker build -t dmytro/multi-server ./server
+  - docker build -t dmytro/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push stephengrider/multi-client
-  - docker push stephengrider/multi-nginx
-  - docker push stephengrider/multi-server
-  - docker push stephengrider/multi-worker
+  - docker push dmytro/multi-client
+  - docker push dmytro/multi-nginx
+  - docker push dmytro/multi-server
+  - docker push dmytro/multi-worker

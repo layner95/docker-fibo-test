@@ -6,7 +6,7 @@ before_install:
   - docker build -t dmytropeheriaha/react-fibo -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run dmytropeheriaha/react-fibo npm test -- --coverage
+  - docker run dmytropeheriaha/react-fibo npm run test -- --coverage
 
 after_success:
   - docker build -t dmytropeheriaha/react-fibo ./client

@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dmytropeheriaha/react-fibo -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run dmytropeheriaha/react-fibo npm test -- --coverage
+
+after_success:
+  - docker build -t dmytropeheriaha/react-fibo ./client
+  - docker build -t dmytropeheriaha/nginx-fibo ./nginx
+  - docker build -t dmytropeheriaha/server-fibo ./server
+  - docker build -t dmytropeheriaha/worker-fibo ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_NAME" --password-stdin
+  - docker push dmytropeheriaha/react-fibo
+  - docker push dmytropeheriaha/nginx-fibo
+  - docker push dmytropeheriaha/server-fibo
+  - docker push dmytropeheriaha/worker-fibo

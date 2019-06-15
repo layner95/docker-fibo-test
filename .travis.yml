@@ -3,18 +3,20 @@ services:
   - docker
 
 before_install:
-  - echo "BEFORE INSTALL START"
-  - gem install bundler
-  - echo "BEFORE INSTALL END"
-  - docker build -t dmytropeheriaha/react-fibo -f ./client/Dockerfile.dev ./client
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run stephengrider/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t dmytropeheriaha/react-fibo ./client
-  - docker build -t dmytropeheriaha/nginx-fibo ./nginx
-  - docker build -t dmytropeheriaha/server-fibo ./server
-  - docker build -t dmytropeheriaha/worker-fibo ./worker
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_NAME" --password-stdin
-  - docker push dmytropeheriaha/react-fibo
-  - docker push dmytropeheriaha/nginx-fibo
-  - docker push dmytropeheriaha/server-fibo
-  - docker push dmytropeheriaha/worker-fibo
+  - docker build -t stephengrider/multi-client ./client
+  - docker build -t stephengrider/multi-nginx ./nginx
+  - docker build -t stephengrider/multi-server ./server
+  - docker build -t stephengrider/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push stephengrider/multi-client
+  - docker push stephengrider/multi-nginx
+  - docker push stephengrider/multi-server
+  - docker push stephengrider/multi-worker
